@@ -1,0 +1,14 @@
+{
+  "name": "@xinghunm/widgets",
+  "version": "1.0.0",
+  "description": "ui-widgets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "UI"
+  ],
+  "author": "xhm",
+  "license": "ISC"
+}

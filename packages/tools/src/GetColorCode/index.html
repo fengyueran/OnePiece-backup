@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+  <style media="screen">
+    canvas {
+      background: #000;
+    }
+  </style>
+  <script src="https://cdn.bootcss.com/hammer.js/2.0.8/hammer.js"></script>
+</head>
+
+<body>
+  <canvas height="400" width="400" id="canvas"></canvas>
+  <p id="res"></p>
+  <script type="text/javascript">
+    const canvas = document.getElementById('canvas');
+    const res = document.getElementById('res');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+
+    const format = (c) => (c < 16 ? '0' + c.toString(16) : c.toString(16));
+    img.onload = () => {
+      console.log(123)
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      ctx.drawImage(img, 0, 0);
+      const imgData = ctx.getImageData(0, 0, img.width, 1).data;
+      const arr = [];
+      const num = 10;
+      const step = Math.floor(img.width / num);
+      for (let i = 0, l = img.width; i < l; i += step) {
+        const r = imgData[4 * i + 0];
+        const g = imgData[4 * i + 1];
+        const b = imgData[4 * i + 2];
+        const a = imgData[4 * i + 3];
+        arr.unshift({ offset: (l - i) / l, color: `#${format(r)}${format(g)}${format(b)}` });
+      }
+      const last = img.width - 1;
+      if (num * step < last) {
+        arr.unshift({ offset: 0, color: `#${format(imgData[4 * last])}${format(imgData[4 * last + 1])}${format(imgData[4 * last + 2])}` });
+      }
+      console.log(arr);
+      res.innerHTML = JSON.stringify(arr, null, 2);
+
+    };
+    img.onerror = (e) => {
+      console.log(e)
+    }
+    img.src = "./jet.png";
+  </script>
+</body>
+
+</html>
